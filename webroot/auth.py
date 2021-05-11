@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from werkzeug.security import generate_password_hash, check_password_hash
+from .models import User
+from . import db
 
 auth = Blueprint('auth', '__name__')
 
@@ -30,7 +33,14 @@ def sign_up():
             flash('Passwörter stimmen nicht überein.', category='error')
         else:
             # add User
+            new_user = User(email=email, first_name=firstName, password=generate_password_hash(
+                password=password, method='sha256'
+            ))
+            db.session.add(new_user)
+            db.session.commit()
+
             flash('Gratulation, du hast dich erfolgreich registiert.', category='success')
+            return redirect(url_for('views.home'))
 
 
 
