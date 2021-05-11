@@ -19,7 +19,6 @@ def login():
             else:
                 flash('Sorry, aber die stimmt was nicht.', category='error')
 
-
     return render_template('login.html')
 
 
