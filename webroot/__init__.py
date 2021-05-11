@@ -9,12 +9,13 @@ load_dotenv()
 
 db = SQLAlchemy()
 DB_NAME = os.getenv('DATABASE_NMAE', 'default-database')
+DB_PATH = os.getenv('DATABASE_PATH', 'data/db')
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['SESSION_TYPE'] = 'filesystem'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_PATH}/{DB_NAME}'
     db.init_app(app)
 
     from .views import views

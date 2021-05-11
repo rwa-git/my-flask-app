@@ -1,6 +1,5 @@
 *.py[co]
 .env
 .idea
-**/__pycache__
 myenv/*
-*database*
+**/db/**
