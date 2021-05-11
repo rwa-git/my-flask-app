@@ -13,12 +13,11 @@ def login():
 
         user = User.query.filter_by(email=email).first()
         if user:
-            print('User %s' % user.email)
             if check_password_hash(user.password, passwd):
                 flash(f'Sali {user.first_name}, du bist angemeldet.', category='succsess')
+                return redirect(url_for('views.home'))
             else:
                 flash('Sorry, aber die stimmt was nicht.', category='error')
-
 
     return render_template('login.html')
 
