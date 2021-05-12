@@ -36,3 +36,10 @@ def delete_note():
             flash('Note deleted!', category='success')
 
     return jsonify({})
+
+
+@views.route('/service')
+@login_required
+def service():
+
+    return render_template('service.html', user=current_user)
