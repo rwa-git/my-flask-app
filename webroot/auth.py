@@ -8,6 +8,7 @@ auth = Blueprint('auth', '__name__')
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    email = ''
     if request.method == 'POST':
         email = request.form.get('email')
         passwd = request.form.get('password')
@@ -18,10 +19,12 @@ def login():
                 flash(f'Sali {user.first_name}, du bist angemeldet.', category='succsess')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
+            else:
+                flash('Sorry, aber die stimmt was nicht.', category='error')
         else:
             flash('Sorry, aber die stimmt was nicht.', category='error')
 
-    return render_template('login.html', user=current_user)
+    return render_template('login.html', user=current_user, email=email )
 
 
 @auth.route('/logout')
@@ -34,6 +37,8 @@ def logout():
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
+    email = ''
+    firstName = ''
     if request.method == 'POST':
         email = request.form.get('email')
         firstName = request.form.get('firstName')
@@ -58,11 +63,11 @@ def sign_up():
             ))
             db.session.add(new_user)
             db.session.commit()
-            login_user(user, remember=True)
+            login_user(new_user, remember=True)
             flash('Gratulation, du hast dich erfolgreich registiert.', category='success')
             return redirect(url_for('views.home'))
 
 
 
-    return render_template('sign_up.html', user=current_user)
+    return render_template('sign_up.html', user=current_user, email=email, firstName=firstName)
 
