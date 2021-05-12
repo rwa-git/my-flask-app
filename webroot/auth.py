@@ -18,10 +18,10 @@ def login():
                 flash(f'Sali {user.first_name}, du bist angemeldet.', category='succsess')
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
-            else:
-                flash('Sorry, aber die stimmt was nicht.', category='error')
+        else:
+            flash('Sorry, aber die stimmt was nicht.', category='error')
 
-    return render_template('login.html')
+    return render_template('login.html', user=current_user)
 
 
 @auth.route('/logout')
@@ -29,6 +29,7 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+    # return render_template('logout.html')
 
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
@@ -63,5 +64,5 @@ def sign_up():
 
 
 
-    return render_template('sign_up.html')
+    return render_template('sign_up.html', user=current_user)
 
